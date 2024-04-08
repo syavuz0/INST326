@@ -35,7 +35,7 @@ class MainWindow(tk.Tk):
         self.note_text.grid(padx=10, pady=10, row=2, column=1)
         self.note_text.insert('1.0', blank_text)  # Adds default text (useful during development)
 
-        submit_button = tk.Button(self, text="Submit", command=self.submit)
+        submit_button = tk.Button(self, text="Submit", command=self.submit) #Create a submit button
         submit_button.grid(row=3, column=1)
 
         save_button = tk.Button(self, text="Save", command=self.save_note)
