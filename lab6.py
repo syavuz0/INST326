@@ -103,7 +103,7 @@ class NoteForm(tk.Toplevel):
     def submit(self):
         title = self.master.note_title.get()
         text = self.master.note_text.get("1.0", tk.END)
-        note_dict = {'Title': title, 'Text': text}
+        note_dict = {'Title': title, 'Text': text} # creates a dictionary that matches the structure
         new_note = MakeNote(note_dict)
         self.master.notes.append(new_note)
         print("Note submitted successfully!")
