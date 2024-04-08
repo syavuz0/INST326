@@ -17,7 +17,7 @@ class MainWindow(tk.Tk):
         self.notebook = []
         self.notes = []
 
-        blank_text = 'Type Here'
+        blank_text = 'Type Here' #adds default text 
 
         title_label = tk.Label(self, bg='light gray', text='Note Title:')
         title_label.grid(padx=10, pady=10, row=1, column=0, sticky='e')
@@ -90,7 +90,7 @@ class MainWindow(tk.Tk):
 class NoteForm(tk.Toplevel):
     
     def __init__(self, master, notebook, notes):
-        super().__init__(master)
+        super().__init__(master) #toplevel window
         self.title('New Note')
         self.geometry("400x300")
         
