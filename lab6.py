@@ -69,6 +69,7 @@ class MainWindow(tk.Tk):
                     file.write('\n')  # Add a blank line between notes
             print('Notes saved successfully!')
 
+    #creats a separate window to view notes 
     def view_saved_notes(self):
         filename = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt")])
         if filename:
