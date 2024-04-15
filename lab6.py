@@ -9,10 +9,10 @@ from tkinter import filedialog
 # These methods correspond to new, open, and save buttons in the window.
 # The new_note method calls the NoteForm class to create a new note form top level window.
 
-class MainWindow(tk.Tk):
+class MainWindow(tk.Tk): 
     def __init__(self):
         super().__init__()
-        self.geometry("600x400")
+        self.geometry("600x400")  
         self.title('Notebook')
         self.notebook = []
         self.notes = []
@@ -44,9 +44,10 @@ class MainWindow(tk.Tk):
         view_saved_button = tk.Button(self, text="View Saved Notes", command=self.view_saved_notes)
         view_saved_button.grid(row=5, column=1)
 
-        now = datetime.datetime.now()
+        
+        now = datetime.datetime.now() #Current date and time
         local_now = now.astimezone()
-        local_tz = local_now.tzinfo
+        local_tz = local_now.tzinfo #Local Timezone information
 
         print(now)
         print(local_now)
