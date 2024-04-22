@@ -40,18 +40,20 @@ class MainWindow(tk.Tk):
         submit_button = tk.Button(self, text="Submit", command=self.submit) #Create a submit button
         submit_button.grid(row=3, column=1)
 
-        save_txt_button = tk.Button(self, text="Save", command=self.save_txt_note)
+        save_txt_button = tk.Button(self, text="Save as TXT", command=self.save_txt_note)
         save_txt_button.grid(row=4, column=1)
 
-        save_json_button = tk.Button(self, text="Save", command=self.save_json_note)
+        save_json_button = tk.Button(self, text="Save as JSON", command=self.save_json_note)
         save_json_button.grid(row=5, column=1)
 
-        save_csv_button = tk.Button(self, text="Save", command=self.save_csv_note)
+        save_csv_button = tk.Button(self, text="Save as CSV", command=self.save_csv_note)
         save_json_button.grid(row=6, column=1)
 
         
         view_saved_button = tk.Button(self, text="View Saved Notes", command=self.view_saved_notes)
         view_saved_button.grid(row=7, column=1)
+
+        self.load_saved_notes() # autoatically load saved notes 
 
         
         now = datetime.datetime.now() #Current date and time
