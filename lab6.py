@@ -4,6 +4,7 @@ from tkinter import ttk
 import datetime # one module for working with dates and times
 from tkinter import filedialog
 import json
+import csv
 
 # The MainWindow class creates a custom GUI window based on the tkinter window (tk.Tk)
 # It has an __init__() method, and three additional methods (new_note(), open_notebook(), and save_notebook())
@@ -45,8 +46,12 @@ class MainWindow(tk.Tk):
         save_json_button = tk.Button(self, text="Save", command=self.save_json_note)
         save_json_button.grid(row=5, column=1)
 
+        save_csv_button = tk.Button(self, text="Save", command=self.save_csv_note)
+        save_json_button.grid(row=6, column=1)
+
+        
         view_saved_button = tk.Button(self, text="View Saved Notes", command=self.view_saved_notes)
-        view_saved_button.grid(row=6, column=1)
+        view_saved_button.grid(row=7, column=1)
 
         
         now = datetime.datetime.now() #Current date and time
@@ -82,6 +87,29 @@ class MainWindow(tk.Tk):
                 json.dump(self.notes, file, indent=4)  # Write self.notes to the file in JSON format
             print('Notes saved as JSON file successfully!')
 
+    def save_csv_note(self):
+        filename = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("CSV Files", "*.csv")])
+        if filename:
+            with open(filename, 'w')as file:
+                user = csv.writer(file)
+                for note in self.notes:
+                    note.get('Title')
+                    note.get('Text')
+                    
+                    L = f'"{title}", "{text}"\n'
+                 file.write(L)
+            print('Notes saved as CSV file successfully!')
+
+
+    
+
+
+                
+                
+                
+                
+            
+                
     #creats a separate window to view notes 
     def view_saved_notes(self):
         filename = filedialog.askopenfilename(filetypes=[("Text Files", "*.txt")])
