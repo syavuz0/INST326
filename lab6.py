@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import ttk
 import datetime # one module for working with dates and times
 from tkinter import filedialog
+import json
 
 # The MainWindow class creates a custom GUI window based on the tkinter window (tk.Tk)
 # It has an __init__() method, and three additional methods (new_note(), open_notebook(), and save_notebook())
@@ -38,11 +39,14 @@ class MainWindow(tk.Tk):
         submit_button = tk.Button(self, text="Submit", command=self.submit) #Create a submit button
         submit_button.grid(row=3, column=1)
 
-        save_button = tk.Button(self, text="Save", command=self.save_note)
-        save_button.grid(row=4, column=1)
+        save_txt_button = tk.Button(self, text="Save", command=self.save_txt_note)
+        save_txt_button.grid(row=4, column=1)
+
+        save_json_button = tk.Button(self, text="Save", command=self.save_json_note)
+        save_json_button.grid(row=5, column=1)
 
         view_saved_button = tk.Button(self, text="View Saved Notes", command=self.view_saved_notes)
-        view_saved_button.grid(row=5, column=1)
+        view_saved_button.grid(row=6, column=1)
 
         
         now = datetime.datetime.now() #Current date and time
@@ -60,7 +64,7 @@ class MainWindow(tk.Tk):
         self.notes.append(new_note)
         print("Note submitted successfully!")
 
-    def save_note(self):
+    def save_txt_note(self):
         filename = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt")])
         if filename:
             with open(filename, 'w') as file:
@@ -68,7 +72,15 @@ class MainWindow(tk.Tk):
                     file.write(f"Title: {note['Title']}\n")
                     file.write(f"Text:\n{note['Text']}\n")
                     file.write('\n')  # Add a blank line between notes
-            print('Notes saved successfully!')
+            print('Notes saved as TXT file successfully!')
+    
+
+    def save_json_note(self):
+        filename = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON Files", "*.json")])
+        if filename:
+            with open(filename, 'w') as file:
+                json.dump(self.notes, file, indent=4)  # Write self.notes to the file in JSON format
+            print('Notes saved as JSON file successfully!')
 
     #creats a separate window to view notes 
     def view_saved_notes(self):
@@ -134,3 +146,38 @@ if __name__ == '__main__':
     main_window.mainloop() 
 
 
+# Snippet Class
+
+class Snippets():
+    def __init__(self, file_path):
+        self.file_path = file_path
+        self.snippets = self.load_snippets()
+
+    def load_snippets(self):
+            with open(self.file_path, 'r') as file:
+                return json.load(file)
+       
+    def save_snippets(self):
+        with open(self.file_path, 'w') as file:
+            json.dump(self.snippets, file, indent=4)
+
+    def create_snippet(self, name, code):
+        snippet = {'name': name, 'code': code}
+        self.snippets.append(snippet)
+        self.save_snippets()
+
+    def display_snippets(self):
+        for idx, snippet in enumerate(self.snippets, 1):
+            print(f"{idx}. {snippet['name']}:\n{snippet['code']}\n")
+
+    def edit_snippet(self, index, name=None, code=None):
+        snippet = self.snippets[index]
+        if name:
+            snippet['name'] = name
+        if code:
+            snippet['code'] = code
+        self.save_snippets()
+
+    def delete_snippet(self, index):
+        del self.snippets[index]
+        self.save_snippets()
