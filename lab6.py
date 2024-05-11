@@ -7,9 +7,11 @@ import csv
 class MainWindow(tk.Tk): 
     def __init__(self):
         super().__init__()
-        self.geometry("600x400")  
-        self.title('Notebook')
-        self.notes = []
+        self.geometry("800x600")  # bigger window size 
+        self.title('Notebook and Snippets')  # Combined title
+        self.items = []  # combined storage for notes and snippets
+
+        self.load_default_notebook()  # Load default notebook when program starts
 
         title_label = tk.Label(self, bg='light gray', text='Note Title:')
         title_label.grid(padx=10, pady=10, row=1, column=0, sticky='e')
@@ -21,7 +23,7 @@ class MainWindow(tk.Tk):
         self.note_title.grid(padx=10, pady=10, row=1, column=1, sticky='w')
         self.note_title.insert(0, 'New note title')
 
-        self.note_text = tk.Text(self, height=10, width=60)
+        self.note_text = tk.Text(self, height=20, width=80)  # bigger text widget size
         self.note_text.grid(padx=10, pady=10, row=2, column=1)
         self.note_text.insert('1.0', 'Type Here')
 
@@ -40,13 +42,19 @@ class MainWindow(tk.Tk):
         view_saved_button = tk.Button(self, text="View and Edit Notes", command=self.view_saved_notes)
         view_saved_button.grid(row=7, column=1)
 
+
+    def load_default_notebook(self):
+        # Load default notebook from a file
+        default_notebook = [{'Type': 'Note', 'Title': 'Default Note', 'Content': 'This is a default note.', 'Created': '2024-05-12T12:00:00', 'Updated': '2024-05-12T12:00:00'}]
+        self.items.extend(default_notebook)
+
     def submit(self):
         created = datetime.datetime.now().isoformat()
-        title = self.note_title.get()
-        text = self.note_text.get("1.0", tk.END)
-        new_note = {'Title': title, 'Text': text, 'Created': created, 'Updated': created}
-        self.notes.append(new_note)
-        messagebox.showinfo("Submit", "Note submitted successfully!")
+        title = self.item_title.get()
+        content = self.item_content.get("1.0", tk.END)
+        new_item = {'Type': 'Note', 'Title': title, 'Content': content, 'Created': created, 'Updated': created}  # combined format
+        self.items.append(new_item)
+        messagebox.showinfo("Submit", "Item submitted successfully!")
 
     def save_txt_note(self):
         filename = filedialog.asksaveasfilename(defaultextension=".txt", filetypes=[("Text Files", "*.txt")])
@@ -76,7 +84,7 @@ class MainWindow(tk.Tk):
     def view_saved_notes(self):
         view_window = tk.Toplevel(self)
         view_window.title("View/Edit Notes")
-        view_window.geometry("600x400")
+        view_window.geometry("800x600")  # bigger window size
 
         listbox = tk.Listbox(view_window, width=100, height=15)
         listbox.pack(pady=20)
