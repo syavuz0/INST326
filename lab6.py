@@ -132,7 +132,7 @@ class MainWindow(tk.Tk):
             save_button = tk.Button(edit_window, text="Save Changes", command=save_changes)
             save_button.pack()
 
-            # Note Encryption
+            # Keyboard Shortcuts
             self.root.bind("<Control-n>", self.create_new_note)
             self.root.bind("<Control-s>", self.save_note)
 
