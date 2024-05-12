@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
+from tkinter import font 
 import datetime
 import json
 import csv
@@ -11,6 +12,8 @@ class MainWindow(tk.Tk):
         self.title('Notebook and Snippets')  # Combined title
         self.configure(bg = 'light blue')
         self.items = []  # combined storage for notes and snippets
+        self.key = b'your_secret_key_here' # key for encryption
+        self.cipher = Fernet(self.key) # ciphering a message
 
         self.load_default_notebook()  # Load default notebook when program starts
 
@@ -129,6 +132,10 @@ class MainWindow(tk.Tk):
             save_button = tk.Button(edit_window, text="Save Changes", command=save_changes)
             save_button.pack()
 
+            # Note Encryption
+            self.root.bind("<Control-n>", self.create_new_note)
+            self.root.bind("<Control-s>", self.save_note)
+
         edit_button = tk.Button(view_window, text="Edit Selected Note", command=edit_note)
         edit_button.pack()
 
@@ -176,3 +183,56 @@ class Snippets():
     def delete_snippet(self, index):
         del self.snippets[index]
         self.save_snippets()
+
+
+class RichTextEditor(tk.Tk):
+    def __init__(self):
+        super().__init__()
+        self.title("Rich Text Editor")
+        self.text = tk.Text(self)
+        self.text.pack()
+
+        # Define custom font styles 
+        self.bold_font = font.Font(self.text, self.text.cget("font"))
+        self.bold_font.configure(weight="bold")
+        self.text.tag_configure("bold", font=self.bold_font)
+
+        self.italic_font = font.Font(self.text, self.text.cget("font"))
+        self.italic_font.configure(slant="italic")
+        self.text.tag_configure("italic", font=self.italic_font)
+
+        self.underline_font = font.Font(self.text, self.text.cget("font"))
+        self.underline_font.configure(underline=True)
+        self.text.tag_configure("underline", font=self.underline_font)
+
+        # Create buttons 
+        self.bold_button = tk.Button(self, text="Bold", command=self.bold_text)
+        self.bold_button.pack(side="left", padx=5)
+
+        self.italic_button = tk.Button(self, text="Italic", command=self.italic_text)
+        self.italic_button.pack(side="left", padx=5)
+
+        self.underline_button = tk.Button(self, text="Underline", command=self.underline_text)
+        self.underline_button.pack(side="left", padx=5)
+
+    def bold_text(self):
+        current_tags = self.text.tag_names("sel.first")
+        if "bold" in current_tags:
+            self.text.tag_remove("bold", "sel.first", "sel.last")
+        else:
+            self.text.tag_add("bold", "sel.first", "sel.last")
+
+    def italic_text(self):
+        current_tags = self.text.tag_names("sel.first")
+        if "italic" in current_tags:
+            self.text.tag_remove("italic", "sel.first", "sel.last")
+        else:
+            self.text.tag_add("italic", "sel.first", "sel.last")
+
+    def underline_text(self):
+        current_tags = self.text.tag_names("sel.first")
+        if "underline" in current_tags:
+            self.text.tag_remove("underline", "sel.first", "sel.last")
+        else:
+            self.text.tag_add("underline", "sel.first", "sel.last")
+
