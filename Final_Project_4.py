@@ -152,6 +152,14 @@ class MainWindow(tk.Tk):
     def change_color(self, event):
         color = self.color_dropdown.get()
         self.configure(bg = color)
+    
+    def encrypt_note(self, note):
+        encrypted_note = self.cipher.encrypt(note.encode())
+        return encrypted_note
+
+    def decrypt_note(self, encrypted_note):
+        decrypted_note = self.cipher.decrypt(encrypted_note).decode()
+        return decrypted_note
         
 
         
