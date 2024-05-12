@@ -9,15 +9,25 @@ class MainWindow(tk.Tk):
         super().__init__()
         self.geometry("800x600")  # bigger window size 
         self.title('Notebook and Snippets')  # Combined title
+        self.configure(bg = 'light blue')
         self.items = []  # combined storage for notes and snippets
 
         self.load_default_notebook()  # Load default notebook when program starts
 
-        title_label = tk.Label(self, bg='light gray', text='Note Title:')
+        title_label = tk.Label(self, bg='light blue', text='Note Title:')
         title_label.grid(padx=10, pady=10, row=1, column=0, sticky='e')
 
         text_label = tk.Label(self, bg='light gray', text='Note Text:')
         text_label.grid(padx=10, pady=10, row=2, column=0, sticky='e')
+
+        #creating dropdown menu
+        color_label = tk.Label(self, text = "Background Color:")
+        color_label.grid = (row=3, column=0, sticky='e', padx=10, pady=10)
+        self.color_options = ["light blue", "pale green", "lemon chiffon", "rosy brown", "honeydew"]
+        self.color_dropdown = ttk.Combobox(self, values=self.color_options, state="readonly")
+        self.color_dropdown.grid(row=3, column=1, sticky='w', padx=10)
+        self.color_dropdown.current(0)  
+        self.color_dropdown.bind("<<ComboboxSelected>>", self.change_color)
 
         self.note_title = tk.Entry(self, width=80)
         self.note_title.grid(padx=10, pady=10, row=1, column=1, sticky='w')
@@ -121,6 +131,13 @@ class MainWindow(tk.Tk):
 
         edit_button = tk.Button(view_window, text="Edit Selected Note", command=edit_note)
         edit_button.pack()
+
+    def change_color(self, event):
+        color = self.color_dropdown.get()
+        self.configure(bg = color)
+        
+
+        
 
 if __name__ == '__main__':
     main_window = MainWindow()
