@@ -6,7 +6,7 @@ import json
 import csv
 
 class MainWindow(tk.Tk): 
-    def __init__(self):
+    def __init__(self,master):
         super().__init__()
         self.geometry("800x600")  # bigger window size 
         self.title('Notebook and Snippets')  # Combined title
@@ -15,6 +15,9 @@ class MainWindow(tk.Tk):
         self.key = b'your_secret_key_here' # key for encryption
         self.cipher = Fernet(self.key) # ciphering a message
 
+        self.RichTextEditor(master)
+        self.Snippets(master)
+        
         self.load_default_notebook()  # Load default notebook when program starts
 
         title_label = tk.Label(self, bg='light blue', text='Note Title:')
